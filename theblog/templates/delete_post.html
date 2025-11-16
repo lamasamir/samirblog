@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Delete Post | MyBlog
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+
+  {% if user.is_authenticated %}
+    {% if user.id == post.author.id %}
+      <div class="card shadow-sm border-0 p-5 text-center">
+        <h2 class="fw-bold text-danger mb-3">🗑️ Delete Post</h2>
+        <p class="fs-5 mb-4">
+          Are you sure you want to permanently delete the post
+          <strong class="text-primary">“{{ post.title }}”</strong>?
+        </p>
+
+        <form method="POST">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger px-4">
+            Yes, Delete Post
+          </button>
+          <a href="{% url 'article' post.pk %}" class="btn btn-outline-secondary px-4 ms-2">
+            Cancel
+          </a>
+        </form>
+      </div>
+
+    {% else %}
+      <div class="alert alert-warning text-center mt-5">
+        ⚠️ You are not allowed to delete this post.
+      </div>
+    {% endif %}
+
+  {% else %}
+    <div class="alert alert-warning text-center mt-5">
+      ⚠️ Please <a href="{% url 'login' %}" class="text-decoration-none">log in</a> to continue.
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}

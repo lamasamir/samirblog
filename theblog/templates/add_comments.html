@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Add a Comment | MyBlog
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+
+  {% if user.is_authenticated %}
+    <div class="card shadow-sm border-0 p-4">
+      <h2 class="text-primary mb-4 text-center">💬 Add a Comment</h2>
+      <p class="text-muted text-center">Share your thoughts about this post!</p>
+
+      <form method="POST" class="mt-4">
+        {% csrf_token %}
+        <div class="mb-3">
+          {{ form.as_p }}
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary px-4">
+            Post Comment
+          </button>
+          <a href="{% url 'home' %}" class="btn btn-outline-secondary px-4 ms-2">
+            Cancel
+          </a>
+        </div>
+      </form>
+    </div>
+
+  {% else %}
+    <div class="alert alert-warning text-center mt-5">
+      ⚠️ Please <a href="{% url 'login' %}" class="text-decoration-none">log in</a> to add a comment.
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}

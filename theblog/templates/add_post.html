@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Create a New Blog Post | MyBlog
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+
+  {% if user.is_authenticated %}
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-5">
+        <h2 class="fw-bold text-primary mb-4">📝 Create a New Blog Post</h2>
+        <p class="text-muted mb-4">Share your thoughts, stories, or experiences with the world.</p>
+
+        <form method="POST" enctype="multipart/form-data" class="needs-validation">
+          {% csrf_token %}
+          {{ form.media }}
+          <div class="mb-3">
+            {{ form.as_p }}
+          </div>
+
+          <button type="submit" class="btn btn-primary px-4">🚀 Publish</button>
+          <a href="{% url 'home' %}" class="btn btn-outline-secondary ms-2">Cancel</a>
+        </form>
+      </div>
+    </div>
+
+    <!-- Auto-fill author -->
+    <script>
+      // Automatically fill the author field with the logged-in user ID
+      const authorField = document.getElementById("elder");
+      if (authorField) {
+        authorField.value = "{{ user.id }}";
+      }
+    </script>
+
+  {% else %}
+    <div class="alert alert-warning mt-5">
+      ⚠️ You must <a href="{% url 'login' %}" class="text-decoration-none">log in</a> to create a post.
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{%load static%}
+
+{% block title %}
+  Edit Profile | MyBlog
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+  {% if user.id == profile.user.id %}
+    <div class="container mt-5 mb-5">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card shadow-sm border-0 p-5">
+            <h2 class="text-primary fw-bold mb-4 text-center">✏️ Edit Your Profile Page</h2>
+            <p class="text-muted text-center mb-4">
+              Update your bio, social links, and profile picture to personalize your page.
+            </p>
+
+            <div class="text-center mb-4">
+              {% if profile.profile_pic %}
+                <img src="{{ profile.profile_pic.url }}" 
+                     alt="Profile Picture"
+                     width="120" height="120"
+                     class="rounded-circle shadow-sm">
+              {% else %}
+                <img src="{% static 'theblog/images/default pic.jpg' %}" 
+                     alt="Default Picture"
+                     width="120" height="120"
+                     class="rounded-circle shadow-sm">
+              {% endif %}
+            </div>
+
+            <form method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              {{ form.as_p }}
+
+              <div class="d-grid gap-2 mt-4">
+                <button type="submit" class="btn btn-primary btn-lg">💾 Save Changes</button>
+                <a href="{% url 'show_profile_page' profile.id %}" class="btn btn-outline-secondary btn-lg">Cancel</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  {% else %}
+    <div class="alert alert-danger text-center mt-5">
+      🚫 You are not authorized to edit this profile.
+    </div>
+  {% endif %}
+{% else %}
+  <div class="alert alert-warning text-center mt-5">
+    ⚠️ You need to log in to access this page.
+  </div>
+{% endif %}
+{% endblock %}

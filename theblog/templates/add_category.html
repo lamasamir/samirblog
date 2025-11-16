@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Create a New Blog Category | MyBlog
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+
+  {% if user.is_authenticated %}
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-5">
+        <h2 class="fw-bold text-primary mb-4">📂 Create a New Category</h2>
+        <p class="text-muted mb-4">
+          Organize your blog posts by creating a category (e.g., Technology, Travel, Lifestyle...).
+        </p>
+
+        <form method="POST">
+          {% csrf_token %}
+          <div class="mb-3">
+            {{ form.as_p }}
+          </div>
+          <button type="submit" class="btn btn-primary px-4">✅ Add Category</button>
+          <a href="{% url 'home' %}" class="btn btn-outline-secondary ms-2">Cancel</a>
+        </form>
+      </div>
+    </div>
+
+  {% else %}
+    <div class="alert alert-warning mt-5">
+      ⚠️ You must <a href="{% url 'login' %}" class="text-decoration-none">log in</a> to add a category.
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}

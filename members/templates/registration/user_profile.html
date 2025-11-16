@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  {{ page_user.user.first_name }}'s Profile | MyBlog
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+  <div class="card shadow-sm border-0 p-4">
+    <div class="row align-items-center g-4">
+
+      <!-- Profile Picture -->
+      <div class="col-md-3 text-center">
+        {% if page_user.profile_pic %}
+          <img src="{{ page_user.profile_pic.url }}" alt="Profile Picture"
+               class="rounded-circle img-fluid border border-3 border-primary shadow-sm"
+               style="max-width: 180px; height: 180px; object-fit: cover;">
+        {% else %}
+          <img src="{% static 'theblog/images/default pic.jpg' %}" alt="Default Profile Picture"
+               class="rounded-circle img-fluid border border-3 border-primary shadow-sm"
+               style="max-width: 180px; height: 180px; object-fit: cover;">
+        {% endif %}
+      </div>
+
+      <!-- Profile Info -->
+      <div class="col-md-9">
+        <h2 class="text-primary mb-2">
+          {{ page_user.user.first_name }} {{ page_user.user.last_name }}
+        </h2>
+
+        {% if page_user.bio %}
+          <p class="text-muted">{{ page_user.bio }}</p>
+        {% endif %}
+
+        <!-- Social Links -->
+        {% if page_user.website_url or page_user.instagram_url or page_user.twitter_url or page_user.facebook_url or page_user.pinterest_url %}
+          <div class="d-flex flex-wrap gap-3 mt-3">
+            {% if page_user.website_url %}
+              <a href="{{ page_user.website_url }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                🌐 Website
+              </a>
+            {% endif %}
+            {% if page_user.instagram_url %}
+              <a href="{{ page_user.instagram_url }}" target="_blank" class="btn btn-outline-danger btn-sm">
+                📸 Instagram
+              </a>
+            {% endif %}
+            {% if page_user.twitter_url %}
+              <a href="{{ page_user.twitter_url }}" target="_blank" class="btn btn-outline-info btn-sm">
+                🐦 Twitter
+              </a>
+            {% endif %}
+            {% if page_user.facebook_url %}
+              <a href="{{ page_user.facebook_url }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                📘 Facebook
+              </a>
+            {% endif %}
+            {% if page_user.pinterest_url %}
+              <a href="{{ page_user.pinterest_url }}" target="_blank" class="btn btn-outline-danger btn-sm">
+                📌 Pinterest
+              </a>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
